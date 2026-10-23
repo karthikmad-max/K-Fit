@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="K-Fit — Smart fitness routines, tracking, and coaching for a stronger everyday life." />
+    <title>K-Fit | Your Fitness, Your Momentum</title>
+    <style>
+      :root {
+        --bg: #07141d;
+        --bg-soft: #0d1f2b;
+        --panel: rgba(13, 31, 43, 0.75);
+        --panel-strong: #102633;
+        --card: #132e3c;
+        --text: #ecf7ff;
+        --muted: #9eb6c2;
+        --primary: #5eead4;
+        --primary-strong: #2dd4bf;
+        --accent: #f59e0b;
+        --shadow: rgba(17, 24, 39, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(94, 234, 212, 0.18), transparent 25%),
+          linear-gradient(135deg, var(--bg), #0b1720 25%, #0c1d29 100%);
+        color: var(--text);
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(7, 20, 29, 0.7);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+
+      .logo {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary), #38bdf8);
+        color: #062a2d;
+        font-weight: 900;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .nav-links a:hover { color: var(--text); }
+
+      .nav-cta,
+      .primary-btn,
+      .secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+      }
+
+      .nav-cta,
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+        color: #062a2d;
+        font-weight: 800;
+        box-shadow: 0 14px 35px rgba(45, 212, 191, 0.25);
+      }
+
+      .nav-cta {
+        padding: 0.8rem 1.1rem;
+      }
+
+      .primary-btn {
+        padding: 1rem 1.5rem;
+      }
+
+      .secondary-btn {
+        padding: 1rem 1.5rem;
+        border-color: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+      }
+
+      .primary-btn:hover,
+      .secondary-btn:hover,
+      .nav-cta:hover {
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        padding: 84px 0 68px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 42px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.5rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--primary);
+        background: rgba(94, 234, 212, 0.08);
+        border: 1px solid rgba(94, 234, 212, 0.18);
+      }
+
+      h1 {
+        margin: 1.2rem 0 1rem;
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+      }
+
+      .lead {
+        margin: 0 0 1.8rem;
+        font-size: 1.08rem;
+        line-height: 1.7;
+        color: var(--muted);
+        max-width: 58ch;
+      }
+
+      .actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 2.2rem;
+      }
+
+      .social-proof {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .metric {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .metric strong {
+        font-size: 1.7rem;
+        color: var(--text);
+      }
+
+      .hero-visual {
+        position: relative;
+      }
+
+      .phone-shell {
+        position: relative;
+        width: min(100%, 400px);
+        aspect-ratio: 0.58;
+        margin: 0 auto;
+        padding: 18px 16px 22px;
+        border-radius: 36px;
+        background: linear-gradient(160deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 34px 60px var(--shadow);
+      }
+
+      .phone-shell::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.12);
+      }
+
+      .screen {
+        height: 100%;
+        border-radius: 24px;
+        padding: 26px 18px 18px;
+        background: linear-gradient(180deg, #0b2330 0%, #122f3d 100%);
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .mini-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .mini-header strong {
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .ring {
+        width: 150px;
+        height: 150px;
+        margin: 12px auto 16px;
+        border-radius: 50%;
+        background: conic-gradient(var(--primary) 0 72%, rgba(255,255,255,0.08) 72% 100%);
+        display: grid;
+        place-items: center;
+        box-shadow: inset 0 0 24px rgba(94, 234, 212, 0.14);
+      }
+
+      .ring-inner {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #0d2330;
+        text-align: center;
+      }
+
+      .ring-inner strong {
+        display: block;
+        font-size: 2.1rem;
+      }
+
+      .ring-inner span {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 12px 14px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(94, 234, 212, 0.1);
+        color: var(--primary);
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .bar {
+        height: 9px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.08);
+        overflow: hidden;
+        margin-top: 8px;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), #38bdf8);
+      }
+
+      section {
+        padding: 42px 0;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        letter-spacing: -0.06em;
+        margin: 0 0 0.8rem;
+      }
+
+      .section-copy {
+        color: var(--muted);
+        max-width: 60ch;
+        line-height: 1.7;
+        margin: 0 0 30px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .feature {
+        padding: 24px 20px;
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 22px;
+        box-shadow: 0 18px 34px rgba(15, 23, 42, 0.18);
+      }
+
+      .icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary), rgba(56,189,248,0.9));
+        color: #072d31;
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin-bottom: 18px;
+      }
+
+      .feature h3 {
+        margin: 0 0 12px;
+        font-size: 1.3rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .stats {
+        margin-top: 34px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .stat {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 22px 18px;
+        border-radius: 18px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: clamp(1.8rem, 2vw, 2.4rem);
+        margin-bottom: 8px;
+      }
+
+      .stat span {
+        color: var(--muted);
+      }
+
+      .cta-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 28px 26px;
+        background: linear-gradient(135deg, rgba(94,234,212,0.14), rgba(56,189,248,0.10));
+        border: 1px solid rgba(94,234,212,0.18);
+        border-radius: 28px;
+      }
+
+      .cta-box h3 {
+        margin: 0 0 10px;
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        letter-spacing: -0.05em;
+      }
+
+      .cta-box p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      footer {
+        padding: 42px 0 60px;
+        color: var(--muted);
+      }
+
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 22px;
+      }
+
+      @media (max-width: 860px) {
+        .hero-grid,
+        .grid-3,
+        .stats,
+        .cta-box {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .cta-box {
+          padding: 22px 18px;
+        }
+
+        .footer-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a href="#top" class="brand" aria-label="K-Fit home">
+          <span class="logo">K</span>
+          <span>K-Fit</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#programs">Programs</a>
+          <a href="#results">Results</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+        <a href="#join" class="nav-cta">Start today</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Built for everyday strength</span>
+            <h1>Train smarter. Move better. Feel stronger.</h1>
+            <p class="lead">
+              K-Fit helps you build sustainable fitness habits with guided workouts, progress tracking,
+              and personalized routines designed to fit your day — not interrupt it.
+            </p>
+            <div class="actions">
+              <a href="#join" class="primary-btn">Join K-Fit</a>
+              <a href="#features" class="secondary-btn">See how it works</a>
+            </div>
+            <div class="social-proof" aria-label="User results summary">
+              <div class="metric">
+                <strong>18k+</strong>
+                <span>members</span>
+              </div>
+              <div class="metric">
+                <strong>92%</strong>
+                <span>habit retention</span>
+              </div>
+              <div class="metric">
+                <strong>4.9/5</strong>
+                <span>average rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="K-Fit product preview">
+            <div class="phone-shell">
+              <div class="screen">
+                <div class="mini-header">
+                  <span>Today</span>
+                  <strong>7:30 AM</strong>
+                </div>
+
+                <div class="ring">
+                  <div class="ring-inner">
+                    <div>
+                      <strong>72%</strong>
+                      <span>Goal</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="stack">
+                  <div class="card">
+                    <div class="row">
+                      <span>Workout streak</span>
+                      <span class="pill">12 days</span>
+                    </div>
+                    <div class="bar"><span style="width: 72%;"></span></div>
+                  </div>
+
+                  <div class="card">
+                    <div class="row">
+                      <span>Power session</span>
+                      <span>45 min</span>
+                    </div>
+                    <div class="bar"><span style="width: 88%;"></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <h2 class="section-title">Everything your fitness journey needs</h2>
+          <p class="section-copy">
+            From personalized coaching to actionable progress tracking, K-Fit keeps every workout focused,
+            motivating, and easy to maintain in real life.
+          </p>
+
+          <div class="grid-3">
+            <article class="feature">
+              <div class="icon">⚡</div>
+              <h3>Fast weekly plans</h3>
+              <p>Build momentum with efficient routines that match your goals, schedule, and energy levels.</p>
+            </article>
+
+            <article class="feature">
+              <div class="icon">📈</div>
+              <h3>Progress insights</h3>
+              <p>Track workouts, movement quality, and consistency with clear data that turns effort into results.</p>
+            </article>
+
+            <article class="feature">
+              <div class="icon">🏆</div>
+              <h3>Motivation built in</h3>
+              <p>Stay accountable with streaks, milestones, and daily wins that help you stay in motion.</p>
+            </article>
+          </div>
+
+          <div class="stats" id="results">
+            <div class="stat">
+              <strong>3x</strong>
+              <span>more consistency</span>
+            </div>
+            <div class="stat">
+              <strong>8 wks</strong>
+              <span>average transformation window</span>
+            </div>
+            <div class="stat">
+              <strong>30+</strong>
+              <span>guided programs</span>
+            </div>
+            <div class="stat">
+              <strong>24/7</strong>
+              <span>accessible training</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="programs">
+        <div class="container">
+          <h2 class="section-title">Programs that fit real life</h2>
+          <p class="section-copy">
+            Choose a plan built around your current level and goals — whether you're starting from scratch,
+            training for performance, or simply improving your daily energy.
+          </p>
+
+          <div class="grid-3">
+            <article class="feature">
+              <div class="icon">🏃</div>
+              <h3>Beginner Burn</h3>
+              <p>Low-pressure fitness plans to help you move more, recover well, and stay confident.</p>
+            </article>
+
+            <article class="feature">
+              <div class="icon">💪</div>
+              <h3>Strength Core</h3>
+              <p>Progressive workouts that build power, posture, and resilience without overcomplicating your schedule.</p>
+            </article>
+
+            <article class="feature">
+              <div class="icon">🔥</div>
+              <h3>Performance Push</h3>
+              <p>High-impact training for members who want measurable gains and a stronger athletic base.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="join">
+        <div class="container">
+          <div class="cta-box">
+            <div>
+              <h3>Start your strongest chapter yet.</h3>
+              <p>Join K-Fit and turn small actions into big gains.</p>
+            </div>
+            <a href="mailto:hello@kfit.example" class="primary-btn">Get started</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-row">
+        <div class="brand">
+          <span class="logo">K</span>
+          <span>K-Fit</span>
+        </div>
+        <span>© 2026 K-Fit. Built for better movement.</span>
+      </div>
+    </footer>
+  </body>
+</html>
